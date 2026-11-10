@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Envelopely — Review-first correspondence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lobster&amp;family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&amp;family=Raleway:wght@300;500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --navy: #06285c;
+            --teal: #008f91;
+            --coral: #ff5238;
+            --ink: #172033;
+            --muted: #64748b;
+            --line: #dce4ee;
+            --surface: #fff;
+            --soft: #f5f8fc
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: linear-gradient(180deg, #eef7f7 0, #f8fafc 260px);
+            font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif
+        }
+
+        main {
+            width: min(980px, calc(100% - 32px));
+            margin: auto;
+            padding: 28px 0 56px
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 24px
+        }
+
+        header img {
+            width: 150px
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--navy);
+            font-size: clamp(28px, 5vw, 44px);
+            letter-spacing: -.04em
+        }
+
+        header p {
+            margin: 5px 0;
+            color: var(--muted)
+        }
+
+        .notice {
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border: 1px solid #b9dddd;
+            border-left: 4px solid var(--teal);
+            border-radius: 10px;
+            background: #f3ffff
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px
+        }
+
+        .card {
+            padding: 20px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface);
+            box-shadow: 0 8px 24px rgba(6, 40, 92, .05)
+        }
+
+        .wide {
+            grid-column: 1/-1
+        }
+
+        h2 {
+            margin: 0 0 14px;
+            color: var(--navy);
+            font-size: 18px
+        }
+
+        label {
+            display: block;
+            margin: 11px 0 5px;
+            color: #344054;
+            font-weight: 600
+        }
+
+        .hint {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 400
+        }
+
+        select,
+        input,
+        textarea,
+        button {
+            font: inherit
+        }
+
+        select,
+        input[type=text],
+        input[type=number],
+        input[type=password],
+        textarea {
+            width: 100%;
+            padding: 10px 11px;
+            color: var(--ink);
+            border: 1px solid #bdc9d8;
+            border-radius: 8px;
+            background: #fff
+        }
+
+        select:focus,
+        input:focus,
+        textarea:focus {
+            outline: 3px solid rgba(0, 143, 145, .15);
+            border-color: var(--teal)
+        }
+
+        textarea {
+            min-height: 235px;
+            resize: vertical;
+            font: 13px/1.55 ui-monospace, Consolas, monospace
+        }
+
+        input[type=file] {
+            width: 100%;
+            padding: 8px;
+            border: 1px dashed #bdc9d8;
+            border-radius: 8px;
+            background: var(--soft)
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px
+        }
+
+        .template-actions {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            align-items: end
+        }
+
+        .check {
+            display: flex;
+            gap: 9px;
+            align-items: flex-start;
+            margin-top: 15px;
+            font-weight: 500
+        }
+
+        .check input {
+            margin-top: 4px
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0
+        }
+
+        button {
+            padding: 10px 16px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            color: var(--navy);
+            background: #fff;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(6, 40, 92, .1)
+        }
+
+        button.primary {
+            color: #fff;
+            border-color: var(--teal);
+            background: var(--teal)
+        }
+
+        button.send {
+            margin-left: auto;
+            color: #fff;
+            border-color: var(--coral);
+            background: var(--coral)
+        }
+
+        button:disabled {
+            opacity: .55;
+            cursor: wait
+        }
+
+        .output-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        #state {
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        pre {
+            min-height: 180px;
+            max-height: 520px;
+            overflow: auto;
+            margin: 8px 0 0;
+            padding: 16px;
+            border-radius: 11px;
+            color: #d9e7f7;
+            background: #071a35;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font: 13px/1.55 ui-monospace, Consolas, monospace
+        }
+
+        @media(max-width:720px) {
+
+            .grid,
+            .row {
+                grid-template-columns: 1fr
+            }
+
+            header {
+                align-items: flex-start
+            }
+
+            header img {
+                width: 110px
+            }
+
+            button.send {
+                margin-left: 0
+            }
+        }
+    </style>
+    <style>
+        /* Deliberately styled like a compact desktop management program. */
+        :root {
+            --navy: #17365d;
+            --teal: #277d7e;
+            --coral: #a64132;
+            --ink: #111;
+            --muted: #454545;
+            --line: #7f8791;
+            --surface: #d9dce1;
+            --soft: #eceff2
+        }
+
+        * {
+            border-radius: 0 !important
+        }
+
+        body {
+            margin: 0;
+            color: #111;
+            background-color: #737c87;
+            background-image:
+                radial-gradient(ellipse at 50% 18%, rgba(220, 228, 236, .28) 0, rgba(105, 116, 129, .18) 42%, rgba(45, 54, 66, .34) 100%),
+                repeating-linear-gradient(135deg, rgba(255, 255, 255, .035) 0, rgba(255, 255, 255, .035) 2px, rgba(0, 0, 0, .025) 2px, rgba(0, 0, 0, .025) 6px);
+            background-attachment: fixed;
+            font: 13px/1.35 "Nunito Sans", Arial, sans-serif
+        }
+
+        main {
+            width: min(1080px, calc(100% - 24px));
+            margin: 18px auto;
+            padding: 0 6px 6px;
+            border: 2px outset #e7e9ec;
+            background: #c9cdd2;
+            box-shadow: 4px 5px 0 rgba(0, 0, 0, .28)
+        }
+
+        .menubar {
+            display: flex;
+            gap: 0;
+            margin: 0 -6px;
+            padding: 2px 6px;
+            border-bottom: 1px solid #777f89;
+            background: #e8e8e8;
+            font-family: "Raleway", sans-serif;
+            font-size: 12px
+        }
+
+        .menubar span,
+        .menubar button {
+            padding: 3px 13px 3px 5px
+        }
+
+        .menubar button {
+            min-width: 0;
+            border: 0;
+            color: #111;
+            background: transparent;
+            box-shadow: none;
+            font: 500 12px "Raleway", sans-serif;
+            cursor: pointer
+        }
+
+        .menubar button:hover,
+        .menubar button:focus {
+            color: #fff;
+            background: #17365d;
+            outline: 1px dotted #fff;
+            transform: none
+        }
+
+        .menubar { position: relative }
+        .file-menu { position:absolute; z-index:20; top:100%; left:2px; width:190px; padding:3px; border:2px outset #eee; background:#d9dce1; box-shadow:2px 3px 0 rgba(0,0,0,.25) }
+        .file-menu button { display:block; width:100%; padding:5px 8px; text-align:left }
+        .file-menu button:hover { color:#fff; background:#17365d }
+
+        header {
+            min-height: 92px;
+            margin: 0 -6px 6px;
+            padding: 7px 12px;
+            gap: 13px;
+            border-bottom: 2px groove #eef0f2;
+            color: #fff;
+            background: #17365d
+        }
+
+        header img {
+            width: 74px;
+            height: 74px;
+            object-fit: cover;
+            background: #17365d;
+            border: 0
+        }
+
+        h1 {
+            color: #fff;
+            font: 300 40px/1 "Raleway", sans-serif;
+            letter-spacing: -.04em;
+            text-shadow: 1px 1px #061a34
+        }
+
+        header p {
+            color: #e5edf5;
+            margin: 4px 0 0;
+            font-size: 12px
+        }
+
+        #welcome {
+            margin-left: auto;
+            padding-right: 6px;
+            color: #111;
+            font-weight: 700
+        }
+
+        .notice {
+            margin: 6px 4px 8px;
+            padding: 7px 30px 7px 9px;
+            position: relative;
+            border: 1px solid #7f8791;
+            border-left: 5px solid #277d7e;
+            background: #f0f1e8;
+            box-shadow: inset 1px 1px #fff
+        }
+
+        .notice .dismiss-notice {
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            min-width: 20px;
+            width: 20px;
+            height: 20px;
+            padding: 0;
+            border: 1px outset #eee;
+            color: #111;
+            background: #d9dce1;
+            font: 700 14px/18px Arial, sans-serif
+        }
+
+        .notice .dismiss-notice:hover {
+            color: #fff;
+            background: #854036;
+            transform: none;
+            box-shadow: none
+        }
+
+        .grid {
+            gap: 6px;
+            padding: 0 4px
+        }
+
+        .card {
+            padding: 10px;
+            border: 2px groove #f4f5f6;
+            background: #d9dce1;
+            box-shadow: none
+        }
+
+        h2 {
+            margin: -2px 0 8px;
+            padding: 3px 5px;
+            color: #111;
+            border-bottom: 1px solid #858b93;
+            background: #c3c8ce;
+            font: 700 13px/1.25 "Raleway", sans-serif;
+            text-transform: uppercase;
+            letter-spacing: .04em
+        }
+
+        label {
+            margin: 7px 0 2px;
+            color: #111;
+            font-weight: 700
+        }
+
+        .hint {
+            color: #454545;
+            font-size: 11px
+        }
+
+        select,
+        input[type=text],
+        input[type=number],
+        textarea {
+            padding: 5px 6px;
+            border: 2px inset #f4f4f4;
+            color: #111;
+            background: #fff;
+            font-family: "Nunito Sans", Arial, sans-serif
+        }
+
+        select:focus,
+        input:focus,
+        textarea:focus {
+            outline: 1px dotted #111;
+            border-color: #f4f4f4
+        }
+
+        input[type=file] {
+            padding: 4px;
+            border: 1px solid #858b93;
+            background: #eceff2
+        }
+
+        textarea {
+            min-height: 190px;
+            font: 12px/1.4 "Courier New", monospace
+        }
+
+        .row {
+            gap: 7px
+        }
+
+        .template-actions {
+            gap: 6px
+        }
+
+        .check {
+            margin-top: 9px
+        }
+
+        .actions {
+            margin: 7px 4px;
+            padding: 6px;
+            gap: 5px;
+            border: 1px solid #858b93;
+            background: #bfc4ca
+        }
+
+        button {
+            min-width: 105px;
+            padding: 5px 11px;
+            border: 2px outset #f4f4f4;
+            color: #111;
+            background: #d9dce1;
+            font: 700 12px "Raleway", sans-serif;
+            box-shadow: none
+        }
+
+        button:hover {
+            transform: none;
+            box-shadow: none;
+            background: #e8eaed
+        }
+
+        button:active {
+            border-style: inset
+        }
+
+        button.primary {
+            color: #111;
+            border-color: #f4f4f4;
+            background: #d9dce1
+        }
+
+        button.send {
+            margin-left: auto;
+            color: #fff;
+            border-color: #d9dce1;
+            background: #854036
+        }
+
+        .output-head {
+            height: 24px;
+            padding: 2px 5px;
+            border: 1px solid #858b93;
+            background: #c3c8ce
+        }
+
+        .output-head h2 {
+            margin: 0;
+            padding: 1px;
+            border: 0;
+            background: transparent
+        }
+
+        #state {
+            padding: 1px 7px;
+            border: 1px inset #eee;
+            color: #111;
+            background: #e8e8e8;
+            font-size: 11px
+        }
+
+        pre {
+            min-height: 170px;
+            max-height: 420px;
+            margin: 0;
+            padding: 8px;
+            border: 2px inset #eee;
+            color: #b7ffb7;
+            background: #101710;
+            font: 12px/1.4 "Courier New", monospace
+        }
+
+        .statusbar {
+            display: flex;
+            justify-content: space-between;
+            margin: 6px 0 0;
+            padding: 3px 7px;
+            border: 1px inset #eee;
+            color: #333;
+            background: #d9dce1;
+            font-size: 11px
+        }
+
+        .statusbar span:last-child {
+            font-family: "Raleway", sans-serif;
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: -.04em
+        }
+
+        @media(max-width:720px) {
+            main {
+                margin: 0;
+                width: 100%;
+                border-width: 0
+            }
+
+            .grid,
+            .row {
+                grid-template-columns: 1fr
+            }
+
+            header {
+                align-items: center
+            }
+
+            button.send {
+                margin-left: 0
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <nav class="menubar" aria-label="Application menu">
+            <button type="button" id="menuFile" aria-haspopup="true" aria-expanded="false">File</button><button type="button" id="menuRecords">Records</button><button type="button" id="menuMessages">Messages</button><button type="button" id="menuSettings">Settings</button><button type="button" id="menuHelp">Help</button><span id="welcome">Hello sender.</span>
+            <div class="file-menu" id="fileMenu" hidden><button type="button" id="fileContacts">Upload contacts…</button><button type="button" id="fileAttachment">Upload CV / attachment…</button></div>
+        </nav>
+        <header><img src="envelopely-logo-dark-transparent.png" alt="Envelopely">
+            <div>
+                <h1>Envelopely</h1>
+                <p>Prepare, review, and send a small number of relevant messages through your own mail account.</p>
+            </div>
+        </header>
+        <div class="notice">Run preflight, then inspect the previews before sending.</div>
+        <div class="grid">
+            <section class="card" id="recordsPanel">
+                <h2>1. Recipients</h2><label for="contacts">Contact CSV</label><select id="contacts"></select><label
+                    for="upContacts">Import a CSV</label><input type="file" id="upContacts" accept=".csv">
+                <p class="hint">Add one personalized paragraph per recipient.</p>
+            </section>
+            <section class="card">
+                <h2>2. Attachment</h2><label for="attachment">File included with each message</label><select
+                    id="attachment"></select><label for="upAttachment">Import an attachment</label><input type="file"
+                    id="upAttachment" accept=".pdf,.doc,.docx,.txt">
+                <p class="hint">The current CLI requires one attachment. Verify it in every preview.</p>
+            </section>
+            <section class="card wide" id="messagesPanel">
+                <h2>3. Message template</h2><label for="template">Template</label><select id="template"></select><label
+                    for="tplText">Plain-text body</label><textarea id="tplText"
+                    placeholder="Choose a template or write a new one"></textarea>
+                <div class="template-actions">
+                    <div><label for="tplName">Save as</label><input type="text" id="tplName" placeholder="my-template">
+                    </div><button id="saveTpl">Save template</button>
+                </div><label for="upTpl">Or import a template</label><input type="file" id="upTpl" accept=".txt">
+            </section>
+            <section class="card wide">
+                <h2>4. Review settings</h2>
+                <div class="row">
+                    <div><label for="language">Default language</label><select id="language">
+                            <option value="en">English</option>
+                            <option value="it">Italian</option>
+                        </select></div>
+                    <div><label for="audience">Default audience</label><select id="audience">
+                            <option value="nontechnical">Nontechnical</option>
+                            <option value="technical">Technical</option>
+                        </select></div>
+                    <div><label for="status">Eligible row status</label><input type="text" id="status"
+                            value="Not contacted"></div>
+                    <div><label for="limit">Maximum messages</label><input type="number" id="limit" min="1" value="5">
+                    </div>
+                    <div><label for="delay">Pause between sends (seconds)</label><input type="number" id="delay" min="0"
+                            value="30"></div>
+                </div><label class="check"><input type="checkbox" id="allowGeneric"><span>Include generic inboxes such
+                        as <code>info@</code> and <code>contact@</code> <span class="hint">(optional)</span></span></label>
+            </section>
+        </div>
+        <div class="actions"><button id="check" class="primary">Run preflight</button><button id="preview">Create
+                previews</button><button id="send" class="send">Send messages</button></div>
+        <section class="card">
+            <div class="output-head">
+                <h2>Activity</h2><span id="state">Ready</span>
+            </div>
+            <pre id="out" aria-live="polite">Choose your files, then run preflight.</pre>
+        </section>
+        <div class="statusbar"><span>LOCAL MODE</span><span id="smtpState">SMTP: not configured</span><span>Envelopely</span></div>
+    </main>
+    <script>
+        const $ = id => document.getElementById(id), out = $('out'); let lastCheckedCount = null;
+        document.querySelectorAll('.notice').forEach(notice=>{const close=document.createElement('button');close.type='button';close.className='dismiss-notice';close.setAttribute('aria-label','Close notice');close.textContent='×';close.onclick=()=>notice.remove();notice.appendChild(close)});
+        function openPanel(panelId, focusId) { const panel=$(panelId); panel.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(()=>$(focusId)?.focus(),250) }
+        $('menuFile').onclick=(event)=>{event.stopPropagation();const menu=$('fileMenu'),open=menu.hidden;menu.hidden=!open;$('menuFile').setAttribute('aria-expanded',String(open))};
+        $('fileContacts').onclick=()=>{$('fileMenu').hidden=true;$('upContacts').click()};
+        $('fileAttachment').onclick=()=>{$('fileMenu').hidden=true;$('upAttachment').click()};
+        document.addEventListener('click',()=>{$('fileMenu').hidden=true;$('menuFile').setAttribute('aria-expanded','false')});
+        $('menuRecords').onclick=()=>openPanel('recordsPanel','contacts');
+        $('menuMessages').onclick=()=>openPanel('messagesPanel','tplText');
+        $('menuSettings').onclick=()=>{window.location.href='/settings.html'};
+        $('menuHelp').onclick=()=>{window.location.href='/help.html'};
+        async function refresh(keep = {}) { const s = await (await fetch('/api/state')).json(); for (const [id, key] of [['contacts', 'contacts'], ['template', 'template'], ['attachment', 'attachment']]) { const sel = $(id), previous = keep[id] || sel.value, names = s[key] || []; sel.replaceChildren(...names.map(name => new Option(name, name))); if ([...sel.options].some(o => o.value === previous)) sel.value = previous } const profile=s.profile||{}; $('welcome').textContent=profile.name?`Hello ${profile.name}.`:'Hello sender.'; $('smtpState').textContent=profile.smtpConfigured?'SMTP: configured':'SMTP: not configured'; await loadTpl() }
+        async function loadTpl() { const name = $('template').value; if (!name) { $('tplText').value = ''; return } $('tplText').value = await (await fetch('/api/template?name=' + encodeURIComponent(name))).text(); $('tplName').value = name.replace(/\.txt$/i, '') }
+        async function upload(kind, input, selectId) { const file = input.files[0]; if (!file) return; const data = new FormData(); data.append('file', file); const response = await fetch('/api/upload?kind=' + kind, { method: 'POST', body: data }); if (!response.ok) { alert(await response.text()); return } const { name } = await response.json(); input.value = ''; await refresh({ [selectId]: name }) }
+        $('upContacts').onchange = e => upload('contacts', e.target, 'contacts'); $('upAttachment').onchange = e => upload('attachment', e.target, 'attachment'); $('upTpl').onchange = e => upload('template', e.target, 'template'); $('template').onchange = loadTpl;
+        $('saveTpl').onclick = async () => { const response = await fetch('/api/template', { method: 'POST', body: JSON.stringify({ name: $('tplName').value, content: $('tplText').value }) }); if (!response.ok) { alert(await response.text()); return } const { name } = await response.json(); await refresh({ template: name }) };
+        function payload(mode, confirm = 0) { return { contacts: $('contacts').value, template: $('template').value, attachment: $('attachment').value, mode, limit: +$('limit').value, delay: +$('delay').value, language: $('language').value, audience: $('audience').value, status: $('status').value, allowGeneric: $('allowGeneric').checked, confirm } }
+        async function run(mode, confirm = 0) { const buttons = [...document.querySelectorAll('button')]; buttons.forEach(b => b.disabled = true); $('state').textContent = mode === 'check' ? 'Checking…' : mode === 'preview' ? 'Creating previews…' : 'Sending…'; out.textContent = ''; try { const response = await fetch('/api/run', { method: 'POST', body: JSON.stringify(payload(mode, confirm)) }); if (!response.ok) { out.textContent = await response.text(); $('state').textContent = 'Needs attention'; return } const reader = response.body.getReader(), decoder = new TextDecoder(); for (; ;) { const { done, value } = await reader.read(); if (done) break; out.textContent += decoder.decode(value, { stream: true }); out.scrollTop = out.scrollHeight } const match = out.textContent.match(/WILL SEND THIS RUN:\s+(\d+)/); if (mode === 'check' && match) lastCheckedCount = Number(match[1]); $('state').textContent = mode === 'send' ? 'Send complete' : 'Review complete' } catch (error) { out.textContent = error.message; $('state').textContent = 'Error' } finally { buttons.forEach(b => b.disabled = false) } }
+        $('check').onclick = () => run('check'); $('preview').onclick = () => run('preview'); $('send').onclick = () => { if (!lastCheckedCount) { alert('Run preflight first and review the eligible count.'); return } const entered = prompt(`Real send. Preflight found ${lastCheckedCount} eligible message(s). Type ${lastCheckedCount} to confirm:`); if (Number(entered) === lastCheckedCount) run('send', lastCheckedCount) };
+        refresh().catch(error => { out.textContent = error.message; $('state').textContent = 'Error' });
+    </script>
+</body>
+
+</html>

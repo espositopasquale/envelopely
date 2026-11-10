@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Envelopely Help</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&amp;family=Raleway:wght@300;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--navy:#17365d;--panel:#d9dce1;--line:#7f8791;--paper:#f7f7f2}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background-color:#737c87;background-image:radial-gradient(ellipse at 50% 18%,rgba(220,228,236,.28) 0,rgba(105,116,129,.18) 42%,rgba(45,54,66,.34) 100%),repeating-linear-gradient(135deg,rgba(255,255,255,.035) 0,rgba(255,255,255,.035) 2px,rgba(0,0,0,.025) 2px,rgba(0,0,0,.025) 6px);background-attachment:fixed;color:#111;font:14px/1.5 "Nunito Sans",Arial,sans-serif}.window{width:min(1100px,calc(100% - 24px));margin:18px auto;border:2px outset #eee;background:#c9cdd2;box-shadow:4px 5px 0 rgba(0,0,0,.28)}header{display:flex;align-items:center;gap:14px;padding:10px 14px;color:#fff;background:var(--navy)}header img{width:64px;height:64px;object-fit:cover}h1{margin:0;font:300 34px/1 "Raleway",sans-serif}.toolbar{padding:5px 8px;border-bottom:1px solid var(--line);background:#e8e8e8}.toolbar a{padding:3px 9px;color:#111;text-decoration:none;font:600 12px "Raleway",sans-serif}.layout{display:grid;grid-template-columns:220px 1fr;gap:7px;padding:7px}nav{padding:8px;border:2px groove #f4f4f4;background:var(--panel);align-self:start;position:sticky;top:7px}nav strong,nav a{display:block;padding:5px 7px}nav a{color:#17365d;text-decoration:none}article{padding:16px 22px;border:2px inset #eee;background:var(--paper)}section{scroll-margin-top:10px;margin-bottom:28px}h2{margin:0 0 10px;padding-bottom:4px;border-bottom:1px solid #9298a0;color:var(--navy);font:700 20px "Raleway",sans-serif}code,pre{font-family:"Courier New",monospace}code{padding:1px 3px;background:#e4e6e8}pre{overflow:auto;padding:10px;border:2px inset #eee;background:#101710;color:#b7ffb7}table{width:100%;border-collapse:collapse}th,td{padding:6px 8px;border:1px solid #9aa0a8;text-align:left}th{background:#d3d6da}.status{display:flex;justify-content:space-between;padding:4px 8px;border-top:1px solid var(--line);background:var(--panel);font-size:11px}@media(max-width:760px){.window{width:100%;margin:0;border:0}.layout{grid-template-columns:1fr}nav{position:static}}
+</style>
+<style>
+.layout{grid-template-columns:220px minmax(0,1fr)}
+article{min-width:0;overflow-wrap:anywhere}
+pre{max-width:100%;white-space:pre-wrap;overflow-wrap:anywhere}
+table{display:block;max-width:100%;overflow-x:auto}
+@media(max-width:760px){.layout{grid-template-columns:minmax(0,1fr)}nav{position:static}article{padding:14px}}
+</style>
+</head>
+<body><div class="window">
+<header><img src="envelopely-logo-dark-icon.png" alt=""><div><h1>Envelopely Help</h1><div>Local reference manual</div></div></header>
+<div class="toolbar"><a href="/">← Return to Envelopely</a></div>
+<div class="layout">
+<nav><strong>Contents</strong><a href="#purpose">Purpose and disclaimer</a><a href="#start">Quick start</a><a href="#files">Files</a><a href="#contacts">Contact CSV</a><a href="#templates">Messages</a><a href="#settings">Settings</a><a href="#workflow">Review workflow</a><a href="#cli">Command line</a><a href="#trouble">Troubleshooting</a><a href="#license">Licence</a></nav>
+<article>
+<section id="purpose"><h2>Purpose and disclaimer</h2><p><strong>Envelopely is intended for legitimate, relevant correspondence—not unsolicited or indiscriminate bulk messaging.</strong> It helps organize, prepare, personalize, review, and send messages in a clean and controlled way.</p><p>Automation does not remove the sender's responsibility. Contact only relevant recipients, use their information lawfully, review every message, identify yourself accurately, and respect refusals and opt-outs.</p><p>Personalization must remain truthful. Do not fabricate familiarity, personal knowledge, endorsements, urgency, or a relationship that does not exist.</p></section>
+<section id="start"><h2>Quick start</h2><ol><li>Use <strong>File</strong> to upload contacts and a CV or attachment.</li><li>Review the message template.</li><li>Run preflight.</li><li>Create and inspect previews.</li><li>Send the confirmed count.</li></ol></section>
+<section id="files"><h2>Files</h2><p>The File menu offers two choices:</p><ul><li><strong>Upload contacts</strong> accepts CSV files.</li><li><strong>Upload CV / attachment</strong> accepts PDF, DOC, DOCX, and TXT files.</li></ul><p>Uploaded files remain in local project folders.</p></section>
+<section id="contacts"><h2>Contact CSV</h2><p>Required columns:</p><pre>Email,Company,Greeting,Subject,PersonalizedText,Status,Batch</pre><p>Optional columns are <code>Language</code> and <code>Audience</code>. The default eligible status is <code>Not contacted</code>.</p></section>
+<section id="templates"><h2>Messages and templates</h2><p>The Messages menu opens the template editor. Templates are plain text and support fields such as Greeting, PersonalizedText, SenderName, SenderTitle, SenderEmail, and SenderWebsite.</p><p>Save a new name when testing a variation.</p></section>
+<section id="settings"><h2>Settings</h2><p>The Settings menu opens a dedicated page for sender and SMTP configuration. You can set host, port, TLS mode, username, app password or token, sender address, sender name, and reply-to address.</p><p>The password field remains empty when settings are loaded. Leave it empty to preserve the current password.</p><p>Configuration uses <code>.env</code> first and <code>.env.local</code> as fallback.</p></section>
+<section id="workflow"><h2>Review workflow</h2><table><tr><th>Step</th><th>Result</th></tr><tr><td>Preflight</td><td>Checks contacts, templates, duplicates, status, and attachments.</td></tr><tr><td>Preview</td><td>Creates local EML files for inspection.</td></tr><tr><td>Send</td><td>Runs preflight again and confirms the exact count.</td></tr></table></section>
+<section id="cli"><h2>Command line</h2><p>Guided mode:</p><pre>./envelopely --interactive</pre><p>Preflight example:</p><pre>./envelopely --contacts contacts.csv --template templates/default.txt --attachment document.pdf --check</pre><p>On Windows, use <code>.\envelopely.exe</code>.</p></section>
+<section id="trouble"><h2>Troubleshooting</h2><h3>Greeting does not update</h3><p>Set <code>MAIL_FROM_NAME</code>, restart the Web UI, and refresh the browser.</p><h3>SMTP is not configured</h3><p>Open Settings and provide at least the SMTP host and sender address.</p><h3>Port 8080 is busy</h3><p>Stop the older server or set <code>ENVELOPELY_WEB_ADDR</code> to another local address.</p><h3>A contact is skipped</h3><p>Review status, email validity, duplicate history, generic-inbox setting, and run limit.</p></section>
+<section id="license"><h2>Licence and warranty</h2><p>Copyright &copy; 2026 Pasquale Esposito.</p><p>Envelopely is free software licensed under the GNU General Public License, version 3. You may use, study, modify, and redistribute it under the GPLv3 terms. Distributions and modified versions must preserve the applicable notices and make the corresponding source code available as required by the licence.</p><p>Envelopely is provided <strong>without any warranty</strong>, to the extent permitted by applicable law. Read the <code>LICENSE</code> file included with the project for the complete terms, warranty disclaimer, and limitation of liability.</p></section>
+</article></div>
+<div class="status"><span>LOCAL HELP</span><span>Envelopely</span></div>
+</div></body>
+</html>

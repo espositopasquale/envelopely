@@ -1,0 +1,14 @@
+{{.Greeting}}
+
+{{.PersonalizedText}}
+
+I am reaching out to explore whether there may be an opportunity to collaborate on a focused piece of work. The scope could be a single deliverable, a short project, or additional support for an existing initiative.
+
+If this is relevant to your current priorities, I would be glad to learn more and see whether there is a practical fit.
+
+Best regards,
+
+{{.SenderName}}
+{{.SenderTitle}}
+{{.SenderEmail}}
+{{.SenderWebsite}}

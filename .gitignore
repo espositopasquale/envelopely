@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+.cache/
+envelopely
+envelopely.exe
+contacts_updated.csv
+contacts.csv
+contacts/
+sent_log.csv
+previews/
+attachments/
+templates/*.txt
+!templates/default.txt
+*.pdf
+*.eml
+*.exe
